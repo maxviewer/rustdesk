@@ -8,13 +8,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 🧹 Limpar build
-      run: flutter clean
-      working-directory: ./flutter
-
-    - name: 🚧 Preparar build
-      run: flutter pub get
-      working-directory: ./flutter
     
     - name: 📥 Clonar repositório
       uses: actions/checkout@v3
@@ -30,6 +23,14 @@ jobs:
 
     - name: 🧪 Verificar ambiente
       run: flutter doctor
+      working-directory: ./flutter
+
+    - name: 🧹 Limpar build
+      run: flutter clean
+      working-directory: ./flutter
+
+    - name: 🚧 Preparar build
+      run: flutter pub get
       working-directory: ./flutter
 
     - name: ⚙️ Build APK universal
