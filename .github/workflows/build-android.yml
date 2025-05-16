@@ -1,39 +1,32 @@
-name: Build Android Universal APK
+name: Build APK Universal
 
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
+  workflow_dispatch:  # Permite executar manualmente via botão "Run workflow"
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+    - name: 📥 Clonar repositório
+      uses: actions/checkout@v3
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.19.6'
+    - name: 🧰 Instalar Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.22.1'  # ajuste se seu projeto usar versão diferente
 
-      - name: Install dependencies
-        run: flutter pub get
+    - name: 🔄 Instalar dependências
+      run: flutter pub get
 
-      - name: Build APK
-        run: flutter build apk --split-per-abi
+    - name: 🧪 Verificar ambiente
+      run: flutter doctor
 
-      - name: Merge APKs (Universal)
-        run: |
-          mkdir -p build/app/outputs/flutter-apk/universal
-          zip -j build/app/outputs/flutter-apk/universal/app-universal.apk \
-              build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk \
-              build/app/outputs/flutter-apk/app-arm64-v8a-release.apk \
-              build/app/outputs/flutter-apk/app-x86_64-release.apk
+    - name: ⚙️ Build APK universal
+      run: flutter build apk --release --target-platform android-arm,android-arm64,android-x64
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: rustdesk-android-universal
-          path: build/app/outputs/flutter-apk/universal/app-universal.apk
+    - name: 📦 Upload APK como artefato
+      uses: actions/upload-artifact@v4
+      with:
+        name: rustdesk-apk-universal
+        path: build/app/outputs/flutter-apk/app-release.apk
