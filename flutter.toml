@@ -1,12 +1,16 @@
-[flutter]
-app_name = "maxViewer"
-package_name = "com.maximatech.maxviewer"
+[package]
+name = "Máxima Tech"
 description = "App de acesso remoto Máxima Tech"
-icon = "assets/icon.png"
-logo = "assets/logo.png"
-server = "maxviewer.maximatech.com.br:21114"
-relay = "maxviewer.maximatech.com.br:21117"
-api = "http://maxviewer.maximatech.com.br:21114"
+identifier = "com.maximatech.maxviewer"
+version = "1.0"
 
-[android]
-universal_apk = true
+[server]
+api = "http://maxviewer.maximatech.com.br:21114"
+key = "sTbpuncgIt6Uh0cmHquHMgNVCorP4y4t00nJmPhrxfE="
+relay = "maxviewer.maximatech.com.br:21117"
+id = "maxviewer.maximatech.com.br"
+
+[branding]
+logo = "assets/logo.png"
+icon = "assets/icon.png"
+splash = "assets/logo.png"
