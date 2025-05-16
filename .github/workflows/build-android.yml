@@ -1,7 +1,7 @@
 name: Build APK Universal
 
 on:
-  workflow_dispatch:  # Permite executar manualmente via botão "Run workflow"
+  workflow_dispatch:
 
 jobs:
   build:
@@ -14,19 +14,22 @@ jobs:
     - name: 🧰 Instalar Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.22.1'  # ajuste se seu projeto usar versão diferente
+        flutter-version: '3.22.1'
 
     - name: 🔄 Instalar dependências
       run: flutter pub get
+      working-directory: ./flutter
 
     - name: 🧪 Verificar ambiente
       run: flutter doctor
+      working-directory: ./flutter
 
     - name: ⚙️ Build APK universal
       run: flutter build apk --release --target-platform android-arm,android-arm64,android-x64
+      working-directory: ./flutter
 
     - name: 📦 Upload APK como artefato
       uses: actions/upload-artifact@v4
       with:
         name: rustdesk-apk-universal
-        path: build/app/outputs/flutter-apk/app-release.apk
+        path: flutter/build/app/outputs/flutter-apk/app-release.apk
