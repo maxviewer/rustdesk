@@ -15,19 +15,19 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.22.0" # versão compatível com RustDesk
+          flutter-version: "3.22.0"
 
       - name: Install dependencies
         run: |
-          cd libs/ui
+          cd flutter
           flutter pub get
 
       - name: Build APK universal
         run: |
-          cd libs/ui
+          cd flutter
           flutter build apk --release --split-per-abi
-          mkdir -p ../../output
-          cp build/app/outputs/flutter-apk/*.apk ../../output/
+          mkdir -p ../output
+          cp build/app/outputs/flutter-apk/*.apk ../output/
 
       - name: Upload APKs
         uses: actions/upload-artifact@v4
