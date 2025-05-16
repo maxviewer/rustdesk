@@ -5,6 +5,9 @@ allprojects {
         maven { url 'https://jitpack.io' }
     }
 }
+buildscript {
+    ext.kotlin_version = '1.9.22' // ou uma versão compatível como 1.8.22
+}
 
 rootProject.buildDir = '../build'
 subprojects {
