@@ -1,6 +1,7 @@
-name: Build APK
+name: Build Android Universal APK
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -12,20 +13,27 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Configurar Flutter
+      - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.0'
+          flutter-version: '3.19.6'
 
-      - name: Instalar Dependências
+      - name: Install dependencies
         run: flutter pub get
 
-      - name: Compilar APK
-        run: flutter build apk --release
+      - name: Build APK
+        run: flutter build apk --split-per-abi
 
-      - name: Fazer Upload do APK
+      - name: Merge APKs (Universal)
+        run: |
+          mkdir -p build/app/outputs/flutter-apk/universal
+          zip -j build/app/outputs/flutter-apk/universal/app-universal.apk \
+              build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk \
+              build/app/outputs/flutter-apk/app-arm64-v8a-release.apk \
+              build/app/outputs/flutter-apk/app-x86_64-release.apk
+
+      - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: app-release.apk
-          path: build/app/outputs/flutter-apk/app-release.apk
-
+          name: rustdesk-android-universal
+          path: build/app/outputs/flutter-apk/universal/app-universal.apk
