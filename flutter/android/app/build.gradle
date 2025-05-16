@@ -74,27 +74,6 @@ android {
         jvmTarget = "17"
     }
 
-    // Garante que o compilador Java use toolchain Java 17
-    tasks.withType(JavaCompile).configureEach {
-        javaCompiler.set(
-            javaToolchains.compilerFor {
-                languageVersion.set(JavaLanguageVersion.of(17))
-            }
-        )
-    }
-
-    // Garante que o compilador Kotlin use toolchain Java 17
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-        kotlinOptions {
-            jvmTarget = "17"
-        }
-        kotlinJavaToolchain.toolchain.use(
-            javaToolchains.launcherFor {
-                languageVersion.set(JavaLanguageVersion.of(17))
-            }
-        )
-    }
-
     defaultConfig {
         applicationId "com.carriez.flutter_hbb"
         minSdkVersion 21
