@@ -26,7 +26,9 @@ jobs:
       with:
          distribution: 'temurin'
          java-version: '17'
-         
+    - name: 🔍 Verificar versão do Java
+      run: java -version
+       
     - name: 🧪 Verificar ambiente
       run: flutter doctor
       working-directory: ./flutter
