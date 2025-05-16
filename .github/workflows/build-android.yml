@@ -1,0 +1,36 @@
+name: Build RustDesk Android
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build APK Universal
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.22.0" # versão compatível com RustDesk
+
+      - name: Install dependencies
+        run: |
+          cd libs/ui
+          flutter pub get
+
+      - name: Build APK universal
+        run: |
+          cd libs/ui
+          flutter build apk --release --split-per-abi
+          mkdir -p ../../output
+          cp build/app/outputs/flutter-apk/*.apk ../../output/
+
+      - name: Upload APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: RustDesk-Android-APK
+          path: output/*.apk
