@@ -8,6 +8,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: 🧹 Limpar build
+      run: flutter clean
+      working-directory: ./flutter
+
+    - name: 🚧 Preparar build
+      run: flutter pub get
+      working-directory: ./flutter
+    
     - name: 📥 Clonar repositório
       uses: actions/checkout@v3
 
