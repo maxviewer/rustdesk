@@ -44,9 +44,18 @@ jobs:
     - name: 🚧 Preparar build
       run: flutter pub get
       working-directory: ./flutter
+          
+    - name: 🔧 Forçar versão do Gradle
+      run: |
+        echo "distributionUrl=https://services.gradle.org/distributions/gradle-8.0-bin.zip" > flutter/android/gradle/wrapper/gradle-wrapper.properties
+      working-directory: ./flutter
+      
+    - name: 🔄 Sincronizar Gradle
+      run: flutter pub get && ./flutter/android/gradlew --version
+      working-directory: ./flutter
 
     - name: ⚙️ Build APK universal
-      run: flutter build apk --release --target-platform android-arm,android-arm64,android-x64
+      run: flutter build apk --release --no-shrink
       working-directory: ./flutter
 
     - name: 📦 Upload APK como artefato
