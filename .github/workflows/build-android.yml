@@ -12,6 +12,9 @@ jobs:
     - name: 📥 Clonar repositório
       uses: actions/checkout@v3
 
+    - name: 🔍 Verificar estrutura do repositório
+      run: ls -lah /home/runner/work/rustdesk || echo "Diretório não encontrado"
+
     - name: 🧰 Instalar Flutter
       uses: subosito/flutter-action@v2
       with:
