@@ -44,6 +44,10 @@ jobs:
     - name: 🚧 Preparar build
       run: flutter pub get
       working-directory: ./flutter
+
+    - name: 🚀 Atualizar Gradle Wrapper
+      run: ./flutter/android/gradlew wrapper --gradle-version 8.0
+      working-directory: ./flutter/android
           
     - name: 🔧 Forçar versão do Gradle
       run: |
