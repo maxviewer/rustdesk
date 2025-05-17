@@ -1,12 +1,16 @@
+// Top-level build file onde podem ser definidas configurações comuns a todos os módulos.
 buildscript {
-    ext.kotlin_version = '1.9.22'
+    ext {
+        // Versão recomendada do Kotlin – ajuste se necessário.
+        kotlin_version = '1.7.10'
+    }
     repositories {
         google()
         mavenCentral()
-        jcenter()
-        maven { url 'https://jitpack.io' }
     }
     dependencies {
+        // Versão do plugin do Gradle para Android – verifique se sua versão do JDK é compatível; JDK 11 costuma ser uma boa escolha.
+        classpath 'com.android.tools.build:gradle:7.2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -15,33 +19,28 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        jcenter()
-        maven { url 'https://jitpack.io' }
     }
 }
 
-rootProject.buildDir = '../build'
-
-subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
-    project.evaluationDependsOn(':app')
-
-    if (project.hasProperty("android")) {
-        project.android {
-            compileOptions {
-                sourceCompatibility JavaVersion.VERSION_17
-                targetCompatibility JavaVersion.VERSION_17
-            }
-        }
-
-        project.plugins.withId("org.jetbrains.kotlin.android") {
-            project.extensions.configure(org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension) {
-                jvmToolchain(17)
-            }
+// =======================================================================
+// Se você tinha um bloco "afterEvaluate { … }" para customizar tarefas ou
+// copiar arquivos (como ícones e banners), substitua-o por "gradle.projectsEvaluated".
+gradle.projectsEvaluated {
+    // Exemplo: se você tinha algo como:
+    // afterEvaluate {
+    //     tasks.findByPath("preBuild")?.dependsOn("copyCustomAssets")
+    // }
+    // então substitua para:
+    def copyCustomAssetsTask = tasks.findByName("copyCustomAssets")
+    if (copyCustomAssetsTask != null) {
+        def preBuildTask = tasks.findByName("preBuild")
+        if (preBuildTask != null) {
+            preBuildTask.dependsOn(copyCustomAssetsTask)
         }
     }
+    // Se houver outras customizações que usam afterEvaluate, mova-as para cá.
 }
+// =======================================================================
 
-tasks.register("clean", Delete) {
-    delete rootProject.buildDir
-}
+// Aplica o script de build do Flutter
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
