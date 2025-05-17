@@ -51,6 +51,9 @@ jobs:
       
     - name: 🔍 Verificar caminho correto
       run: pwd && ls -lah
+      
+    - name: 🏗️ Criar diretório Android manualmente
+      run: mkdir -p flutter/android
 
     - name: 🏗️ Criar diretório do Gradle Wrapper, se necessário
       run: mkdir -p flutter/android/gradle/wrapper
