@@ -44,15 +44,15 @@ jobs:
     - name: 🚧 Preparar build
       run: flutter pub get
       working-directory: ./flutter
-
-    - name: 🚀 Atualizar Gradle Wrapper
-      run: ./flutter/android/gradlew wrapper --gradle-version 8.0
-      working-directory: ./flutter/android
           
     - name: 🔧 Forçar versão do Gradle
       run: |
         echo "distributionUrl=https://services.gradle.org/distributions/gradle-8.0-bin.zip" > flutter/android/gradle/wrapper/gradle-wrapper.properties
       working-directory: ./flutter
+
+    - name: 🚀 Atualizar Gradle Wrapper
+      run: ./flutter/android/gradlew wrapper --gradle-version 8.0
+      working-directory: ./flutter/android
       
     - name: 🔄 Sincronizar Gradle
       run: flutter pub get && ./flutter/android/gradlew --version
