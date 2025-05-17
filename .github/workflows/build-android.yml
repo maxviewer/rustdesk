@@ -34,7 +34,7 @@ jobs:
       run: flutter doctor
       working-directory: ./flutter
 
-    - name: 🧪 Verificar Plugin
+    - name: 🧪 Atualizar Plugins
       run: flutter pub upgrade
       working-directory: ./flutter
 
@@ -47,19 +47,19 @@ jobs:
       working-directory: ./flutter
         
     - name: 🔍 Verificar diretório e arquivos existentes
-      run: ls -R flutter/android/gradle/wrapper || echo "Diretório não encontrado"
+      run: ls -lah flutter/android || echo "Diretório não encontrado"
 
     - name: 🏗️ Criar diretório do Gradle Wrapper, se necessário
       run: mkdir -p flutter/android/gradle/wrapper
 
+    - name: 🔄 Gerar Gradle Wrapper (caso não exista)
+      run: |
+        cd flutter/android
+        gradle wrapper
+      working-directory: ./flutter/android
+
     - name: ✍️ Definir versão do Gradle
       run: echo "distributionUrl=https://services.gradle.org/distributions/gradle-8.0-bin.zip" | tee flutter/android/gradle/wrapper/gradle-wrapper.properties
- 
-    - name: 🔍 Verificar arquivos dentro de `android`
-      run: ls -lah flutter/android || echo "Diretório não encontrado"
-
-    - name: 🔧 Garantir permissões corretas nos arquivos do Gradle
-      run: chmod +x ./flutter/android/gradlew
 
     - name: 🚀 Atualizar Gradle Wrapper
       run: ./gradlew wrapper --gradle-version 8.0
