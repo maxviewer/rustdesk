@@ -48,6 +48,9 @@ jobs:
         
     - name: 🔍 Verificar diretório e arquivos existentes
       run: ls -lah flutter/android || echo "Diretório não encontrado"
+      
+    - name: 🔍 Verificar caminho correto
+      run: pwd && ls -lah
 
     - name: 🏗️ Criar diretório do Gradle Wrapper, se necessário
       run: mkdir -p flutter/android/gradle/wrapper
@@ -62,7 +65,9 @@ jobs:
       run: echo "distributionUrl=https://services.gradle.org/distributions/gradle-8.0-bin.zip" | tee flutter/android/gradle/wrapper/gradle-wrapper.properties
 
     - name: 🚀 Atualizar Gradle Wrapper
-      run: ./gradlew wrapper --gradle-version 8.0
+      run: |
+        cd flutter/android || exit 1
+        ./gradlew wrapper --gradle-version 8.0
       working-directory: ./flutter/android
       
     - name: 🔄 Sincronizar Gradle
