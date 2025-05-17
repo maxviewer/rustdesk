@@ -54,6 +54,9 @@ jobs:
 
     - name: ✍️ Definir versão do Gradle
       run: echo "distributionUrl=https://services.gradle.org/distributions/gradle-8.0-bin.zip" | tee flutter/android/gradle/wrapper/gradle-wrapper.properties
+ 
+    - name: 🔍 Verificar arquivos dentro de `android`
+      run: ls -lah flutter/android || echo "Diretório não encontrado"
 
     - name: 🔧 Garantir permissões corretas nos arquivos do Gradle
       run: chmod +x ./flutter/android/gradlew
