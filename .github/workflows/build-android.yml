@@ -56,9 +56,12 @@ jobs:
     - name: ✍️ Definir versão do Gradle
       run: echo "distributionUrl=https://services.gradle.org/distributions/gradle-8.0-bin.zip" | tee flutter/android/gradle/wrapper/gradle-wrapper.properties
 
+    - name: 🔧 Ajustar permissões do Gradlew
+      run: chmod +x flutter/android/gradlew
+
     - name: 🚀 Atualizar Gradle Wrapper
       run: |
-        ./flutter/android/gradlew wrapper --gradle-version 8.0
+        $(pwd)/flutter/android/gradlew wrapper --gradle-version 8.0
       working-directory: ./flutter
 
     - name: 🔄 Sincronizar Gradle
