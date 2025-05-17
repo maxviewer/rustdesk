@@ -46,36 +46,24 @@ jobs:
       run: flutter pub get
       working-directory: ./flutter
         
-    - name: 🔍 Verificar diretório e arquivos existentes
-      run: ls -lah flutter/android || echo "Diretório não encontrado"
-      
-    - name: 🔍 Verificar caminho correto
-      run: pwd && ls -lah
-      
-    - name: 🏗️ Criar diretório Android manualmente
-      run: mkdir -p flutter/android
+    - name: 🔍 Verificar diretório Flutter
+      run: ls -lah flutter || echo "Diretório Flutter não encontrado"
 
-    - name: 🏗️ Criar diretório do Gradle Wrapper, se necessário
-      run: mkdir -p flutter/android/gradle/wrapper
-
-    - name: 🔄 Gerar Gradle Wrapper (caso não exista)
-      run: |
-        cd flutter/android
-        gradle wrapper
-      working-directory: ./flutter/android
+    - name: 🏗️ Criar estrutura Android manualmente
+      run: flutter create .
+      working-directory: ./flutter
 
     - name: ✍️ Definir versão do Gradle
       run: echo "distributionUrl=https://services.gradle.org/distributions/gradle-8.0-bin.zip" | tee flutter/android/gradle/wrapper/gradle-wrapper.properties
 
     - name: 🚀 Atualizar Gradle Wrapper
       run: |
-        cd flutter/android || exit 1
-        ./gradlew wrapper --gradle-version 8.0
-      working-directory: ./flutter/android
-      
+        ./flutter/android/gradlew wrapper --gradle-version 8.0
+      working-directory: ./flutter
+
     - name: 🔄 Sincronizar Gradle
-      run: flutter pub get && ./gradlew --version
-      working-directory: ./flutter/android
+      run: flutter pub get && ./flutter/android/gradlew --version
+      working-directory: ./flutter
 
     - name: ⚙️ Build APK Universal
       run: flutter build apk --release --no-shrink
